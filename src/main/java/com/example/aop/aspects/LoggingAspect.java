@@ -1,6 +1,7 @@
 package com.example.aop.aspects;
 
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.aspectj.lang.annotation.Aspect;
 
@@ -36,9 +37,41 @@ public class LoggingAspect {
 //        System.out.println("the unknown method is calling");
 //    }
 
+    @Before("execution(public void getBook(String))") // matches with String parameter
+    public void beforeTest() {
+        System.out.println("test");
+    }
+
+    @Before("execution(public void *(*))") // matches with only one parameter
+    public void test2() {
+        System.out.println("test");
+    }
 
 
+    @Before("execution(public void *(..))") // matches with any two parameter
+    public void test3() {
+        System.out.println("test");
+    }
 
+
+//    @Before("execution(public void *(com.example.Book, ..))") // matches with any two parameter
+//    public void test4() {
+//        System.out.println("test");
+//    }
+
+    @Pointcut("execution(* get*())")
+    private void allGetMethods() {
+    }
+
+    @Before("allGetMethods()") // We just use one and it works
+    public void test4() {
+        System.out.println("test");
+    }
+
+    @Before("allGetMethods()") // We just use one and it works
+    public void test5() {
+        System.out.println("test");
+    }
 
 
 }
